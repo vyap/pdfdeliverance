@@ -1,0 +1,62 @@
+    <?php
+     
+    /**
+    * Implementation of hook_menu().
+    */
+    function hren_menu()
+    {
+    $items['hren'] = array( // path to your module output
+    'title' => 'Page1', // page title
+    'page callback' => 'page1', // function that is called when you land to this url
+    'access callback' => TRUE, // always and everybody can access this url
+    'type' => MENU_NORMAL_ITEM, // no menu item will be made, simple callback is made
+    'menu_name' => 'main-menu',
+    );
+    $items['hren2'] = array( // path to your module output
+    'title' => 'Page2', // page title
+    'page callback' => 'page2', // function that is called when you land to this url
+    'access callback' => TRUE, // always and everybody can access this url
+    'type' => MENU_NORMAL_ITEM, // no menu item will be made, simple callback is made
+    'menu_name' => 'main-menu',
+    );
+    $items['hren3'] = array( // path to your module output
+    'title' => 'Page3', // page title
+    'page callback' => 'page3', // function that is called when you land to this url
+    'access callback' => TRUE, // always and everybody can access this url
+    'type' => MENU_NORMAL_ITEM, // no menu item will be made, simple callback is made
+    'menu_name' => 'main-menu',
+    );
+    return $items;
+    }
+     
+    /**
+    * Page callback.
+    */
+    function page1()
+    {
+    /**
+      If you return you get you content in Drupal if you echo you get your results in plain html.
+      This way you can output xml or what ever content you might need
+      */
+    return 'Иди на ху';
+    }
+
+    function page2()
+    {
+    /**
+      If you return you get you content in Drupal if you echo you get your results in plain html.
+      This way you can output xml or what ever content you might need
+      */
+    return 'Иди на ху2';
+    }
+
+    function page3()
+    {
+    /**
+      If you return you get you content in Drupal if you echo you get your results in plain html.
+      This way you can output xml or what ever content you might need
+      */
+    return 'Иди на ху3';
+    }
+
+

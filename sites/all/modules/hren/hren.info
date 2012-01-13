@@ -1,0 +1,4 @@
+name = DDT
+description = "Hello World page."
+core = 7.x
+files[] = hren.module
