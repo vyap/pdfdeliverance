@@ -1,5 +1,5 @@
 <?php
-function atomix_portal_block_info() {
+function atomyx_portal_block_info() {
 	$blocks['atomyxhelp'] = array(
 		'info'   => t('Atomyx help block'), //The name that will appear in the block list.
 		'cache'  => DRUPAL_NO_CACHE, //Disable cacheen
@@ -28,7 +28,7 @@ function atomix_portal_block_info() {
 	return $blocks;
 }
 
-function atomix_portal_block_configure($delta = '') {
+function atomyx_portal_block_configure($delta = '') {
   $form = array();
   if ($delta == 'atomyxhelp') {
     $form['atomyxhelp_string'] = array(
@@ -42,7 +42,7 @@ function atomix_portal_block_configure($delta = '') {
   return $form;
 }
 
-function atomix_portal_block_save($delta = '', $edit = array()) {
+function atomyx_portal_block_save($delta = '', $edit = array()) {
   if ($delta == 'atomyxhelp') {
     variable_set('atomyxhelp_example_string', $edit['atomyxhelp_string']);
   }
@@ -50,7 +50,7 @@ function atomix_portal_block_save($delta = '', $edit = array()) {
 }
 
 
-function atomix_portal_block_view($hui = "") {
+function atomyx_portal_block_view($hui = "") {
 	switch($hui) {
 		case "atomyxhelp" : 
 			$block['subject'] = t('Title of second block (example_empty)');
