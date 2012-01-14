@@ -1,0 +1,146 @@
+<?php
+
+function hren_install() {
+// Wellcome page
+	$wellcome = new stdClass();
+	$wellcome->type = 'page';
+	node_object_prepare($wellcome);
+	$wellcome->title = t('Wellcome');
+	$wellcome->language = 'en';
+	$wellcome->body[$wellcome->language][0]['value'] = 'Your value';
+	$wellcome->body[$wellcome->language][0]['summary'] = 'Your summary';
+	$wellcome->body[$wellcome->language][0]['format'] = 'filtered_html';
+	$wellcome->menu = array(
+	    'enabled' => 1,
+	    'mlid' => 0,
+	    'module' => 'menu',
+	    'hidden' => 0,
+	    'has_children' => 0,
+	    'customized' => 0,
+	    'options' => array(),
+	    'expanded' => 0,
+	    'parent_depth_limit' => 8,
+	    'link_title' => t('Wellcome'),
+	    'description' => '',
+	    'parent' => 'main-menu:0',
+	    'weight' => 0,
+	    'plid' => 0,
+	    'menu_name' => 'main-menu'
+	);
+
+
+	$wellcome->path['alias'] = 'Wellcome';
+
+	$wellcome->status = 1;        // 1 means published
+	$wellcome->promote = 0;
+	$wellcome->revision = 0;
+	node_save($wellcome);
+
+// Deliver page
+	$deliver = new stdClass();
+	$deliver->type = 'page';
+	node_object_prepare($deliver);
+	$deliver->title = 'Deliver';
+	$deliver->language = 'en';
+	$deliver->body[$deliver->language][0]['value'] = 'Your value';
+	$deliver->body[$deliver->language][0]['summary'] = 'Your summary';
+	$deliver->body[$deliver->language][0]['format'] = 'filtered_html';
+	$deliver->menu = array(
+	    'enabled' => 1,
+	    'mlid' => 0,
+	    'module' => 'menu',
+	    'hidden' => 0,
+	    'has_children' => 0,
+	    'customized' => 0,
+	    'options' => array(),
+	    'expanded' => 0,
+	    'parent_depth_limit' => 8,
+	    'link_title' => 'Deliver',
+	    'description' => '',
+	    'parent' => 'main-menu:0',
+	    'weight' => 5,
+	    'plid' => 0,
+	    'menu_name' => 'main-menu'
+	);
+
+
+	$deliver->path['alias'] = 'Deliver';
+
+	$deliver->status = 1;        // 1 means published
+	$deliver->promote = 0;
+	$deliver->revision = 0;
+	node_save($deliver);
+
+// Jobs page
+	$jobs = new stdClass();
+	$jobs->type = 'page';
+	node_object_prepare($jobs);
+	$jobs->title = 'Your Jobs';
+	$jobs->language = 'en';
+	$jobs->body[$jobs->language][0]['value'] = 'Your value';
+	$jobs->body[$jobs->language][0]['summary'] = 'Your summary';
+	$jobs->body[$jobs->language][0]['format'] = 'filtered_html';
+	$jobs->menu = array(
+	    'enabled' => 1,
+	    'mlid' => 0,
+	    'module' => 'menu',
+	    'hidden' => 0,
+	    'has_children' => 0,
+	    'customized' => 0,
+	    'options' => array(),
+	    'expanded' => 0,
+	    'parent_depth_limit' => 8,
+	    'link_title' => 'Your Jobs',
+	    'description' => '',
+	    'parent' => 'main-menu:0',
+	    'weight' => 10,
+	    'plid' => 0,
+	    'menu_name' => 'main-menu'
+	);
+
+
+	$jobs->path['alias'] = 'Jobs';
+
+	$jobs->status = 1;        // 1 means published
+	$jobs->promote = 0;
+	$jobs->revision = 0;
+	node_save($jobs);
+// My account page
+	$my_account = new stdClass();
+	$my_account->type = 'page';
+	node_object_prepare($my_account);
+	$my_account->title = 'My account';
+	$my_account->language = 'en';
+	$my_account->body[$my_account->language][0]['value'] = 'Your value';
+	$my_account->body[$my_account->language][0]['summary'] = 'Your summary';
+	$my_account->body[$my_account->language][0]['format'] = 'filtered_html';
+	$my_account->menu = array(
+	    'enabled' => 1,
+	    'mlid' => 0,
+	    'module' => 'menu',
+	    'hidden' => 0,
+	    'has_children' => 0,
+	    'customized' => 0,
+	    'options' => array(),
+	    'expanded' => 0,
+	    'parent_depth_limit' => 8,
+	    'link_title' => 'My account',
+	    'description' => '',
+	    'parent' => 'main-menu:0',
+	    'weight' => 15,
+	    'plid' => 0,
+	    'menu_name' => 'main-menu'
+	);
+
+
+	$my_account->path['alias'] = 'My account';
+
+	$my_account->status = 1;        // 1 means published
+	$my_account->promote = 0;
+	$my_account->revision = 0;
+	node_save($my_account);
+}
+
+
+
+
