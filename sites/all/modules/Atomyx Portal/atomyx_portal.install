@@ -158,9 +158,125 @@ function atomyx_portal_install() {
 	$my_account->revision = 0;
 	node_save($my_account);
 
-//
+// help
+  $t = get_t();
+
+  $node_atomhelp = array(
+    'type' => 'node_atomhelp',
+    'name' => $t('Atomyx help'),
+    'base' => 'node_content',
+    'description' => $t('Atomyx help node type.'),
+    'body_label' => $t('Help Description'),
+    'custom' => TRUE,
+  );
+  $content_type = node_type_set_defaults($node_atomhelp);
+
+  node_type_save($content_type);
+
+  foreach (_node_atomhelp_installed_fields() as $field) {
+    field_create_field($field);
+  }
+
+  foreach (_node_atomhelp_installed_instances() as $instance) {
+    $instance['entity_type'] = 'node';
+    $instance['bundle'] = $node_atomhelp['type'];
+    field_create_instance($instance);
+  }
+
 }
 
+function _node_atomhelp_installed_fields() 
+{
+	$t = get_t();
+	return array(
+		'field_helpbody' => array(
+			'field_name' => 'field_helpbody',
+			'cardinality' => 1,
+			'type' => 'text_with_summary',
+		),
+		'field_helppage' => array(
+			'field_name'    => 'field_helppage',
+			'type'          => 'list_text',
+			'cardinality'   => 1,
+			'settings'      =>array(
+				'allowed_values'=>array(
+					'all'       => 'all',
+					''          => 'home',
+					'myproducts'=> 'myproducts',
+					'deliver'   => 'deliver',
+					'closer'    => 'closer',
+					'bummer'    => 'bummer',
+					'close'     => 'close',
+					'success'   => 'success',
+					'jobs'      => 'jobs',
+					'license'   => 'license',
+					'upload'    => 'upload',
+					'approve'   => 'approve',
+					'mydelivery'=> 'mydelivery',
+					'closecall'=> 'closecall',
+					'change'=> 'change',
+					'welcome'=> 'welcome',
+				),
+			),
+		),
+		'field_helpweight' => array(
+			'field_name' => 'field_helpweight',
+			'cardinality' => 1,
+			'type'        => 'text',
+			'settings'    => array(
+				'max_length' => 60,
+			),
+		),
+	); 
+}
+function _node_atomhelp_installed_instances()
+{
+	$t = get_t();
+	return array(  
+		'field_helpbody' => array(
+			'field_name' => 'field_helpbody',
+			'label'       => $t('Body:'),
+			'required' => TRUE,
+			'widget'      => array(
+				'type'    => 'text_textarea_with_summary',
+			),
 
+			'display' => array(
+				'atomhelp_node_list' => array(
+					'label' => 'above',
+					'type' => 'text_textnode',
+				),
+			),
 
-
+		),  
+		'field_helppage' => array(
+			'field_name' => 'field_helppage',
+			'label'       => $t('Page:'),
+			'required' => TRUE,
+			'widget'      => array(
+				'type'    => 'options_select',
+			),
+			'display' => array(
+				'atomhelp_node_list' => array(
+					'label' => 'above',
+					'type' => 'list_default',
+				),
+			),
+		),
+		'field_helpweight' => array(
+			'field_name' => 'field_helpweight',
+			'label'       => $t('Weight:'),
+			'required' => TRUE,
+			'widget'      => array(
+				'type'    => 'text_textnode',
+			),
+			'display' => array(
+				'atomhelp_node_list' => array(
+					'label' => 'above',
+					'type' => 'text',
+				),
+			),
+		),
+	);
+   
+}
