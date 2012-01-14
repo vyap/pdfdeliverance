@@ -1,162 +1,84 @@
 <?php
 
+function create_page_vidth_menu_linc($page_property = array()) {
+	$page = new stdClass();
+	$page->type = 'page';
+	node_object_prepare($page);
+	$page->title = t($page_property['page_title']);
+	$page->language = $page_property['page_language'];
+	$page->body[$page->language][0]['value'] = 'Your value';
+	$page->body[$page->language][0]['summary'] = 'Your summary';
+	$page->body[$page->language][0]['format'] = $page_property['body_format'];
+	$page->menu = array(
+		'enabled' => 1,
+		'mlid' => 0,
+		'module' => 'menu',
+		'hidden' => 0,
+		'has_children' => 0,
+		'customized' => 1,
+		'options' => array(),
+		'expanded' => 0,
+		'parent_depth_limit' => 8,
+		'link_title' => t($page_property['menu_link_title']),
+		'description' => '',
+		'parent' => 'main-menu:0',
+		'weight' => $page_property['page_weight'],
+		'plid' => 0,
+		'menu_name' => 'main-menu'
+	);
+
+
+	$page->path['alias'] = $page_property['page_alias'];
+
+	$page->status = 1;
+	$page->promote = 0;
+	$page->revision = 0;
+	node_save($page);
+}
+
+function create_pages_properties() {
+	return array(
+		'wellcome' => array(
+			'page_title' => 'Wellcome!',
+			'page_language' => 'en',
+			'body_format' => 'filtered_html',
+			'menu_link_title' => 'Wellcome!',
+			'page_alias' => 'wellcome',
+			'page_weight' => 1,
+		),
+		'deliver' => array(
+			'page_title' => 'Deliver your work',
+			'page_language' => 'en',
+			'body_format' => 'filtered_html',
+			'menu_link_title' => 'Deliver',
+			'page_alias' => 'deliver',
+			'page_weight' => 2,
+		),
+		'jobs' => array(
+			'page_title' => 'Your Jobs',
+			'page_language' => 'en',
+			'body_format' => 'filtered_html',
+			'menu_link_title' => 'jobs',
+			'page_alias' => 'jobs',
+			'page_weight' => 3,
+		),
+		'my_account' => array(
+			'page_title' => 'My account',
+			'page_language' => 'en',
+			'body_format' => 'filtered_html',
+			'menu_link_title' => 'My account',
+			'page_alias' => 'my_account',
+			'page_weight' => 4,
+		),
+		
+	);
+}
+
 function atomyx_portal_install() {
-// Wellcome page
-	$wellcome = new stdClass();
-	$wellcome->type = 'page';
-	node_object_prepare($wellcome);
-	$wellcome->title = t('Wellcome!');
-	$wellcome->language = 'en';
-	$wellcome->body[$wellcome->language][0]['value'] = 'Your value';
-	$wellcome->body[$wellcome->language][0]['summary'] = 'Your summary';
-	$wellcome->body[$wellcome->language][0]['format'] = 'filtered_html';
-	$wellcome->menu = array(
-	    'enabled' => 1,
-	    'mlid' => 0,
-	    'module' => 'menu',
-	    'hidden' => 0,
-	    'has_children' => 0,
-	    'customized' => 1,
-	    'options' => array(),
-	    'expanded' => 0,
-	    'parent_depth_limit' => 8,
-	    'link_title' => t('Wellcome!'),
-	    'description' => '',
-	    'parent' => 'main-menu:0',
-	    'weight' => 0,
-	    'plid' => 0,
-	    'menu_name' => 'main-menu'
-	);
-
-
-	$wellcome->path['alias'] = 'wellcome';
-
-	$wellcome->status = 1;       
-	$wellcome->promote = 0;
-	$wellcome->revision = 0;
-	node_save($wellcome);
-
-// Deliver page
-	$deliver = new stdClass();
-	$deliver->type = 'page';
-	node_object_prepare($deliver);
-	$deliver->title = t('Deliver your work');
-	$deliver->language = 'en';
-	$deliver->body[$deliver->language][0]['value'] = 'Your value';
-	$deliver->body[$deliver->language][0]['summary'] = 'Your summary';
-	$deliver->body[$deliver->language][0]['format'] = 'filtered_html';
-	$deliver->menu = array(
-	    'enabled' => 1,
-	    'mlid' => 0,
-	    'module' => 'menu',
-	    'hidden' => 0,
-	    'has_children' => 0,
-	    'customized' => 0,
-	    'options' => array(),
-	    'expanded' => 0,
-	    'parent_depth_limit' => 8,
-	    'link_title' => t('Deliver'),
-	    'description' => '',
-	    'parent' => 'main-menu:0',
-	    'weight' => 5,
-	    'plid' => 0,
-	    'menu_name' => 'main-menu'
-	);
-
-
-	$deliver->path['alias'] = 'deliver';
-
-	$deliver->status = 1;      
-	$deliver->promote = 0;
-	$deliver->revision = 0;
-	node_save($deliver);
-
-// Jobs page
-	$jobs = new stdClass();
-	$jobs->type = 'page';
-	node_object_prepare($jobs);
-	$jobs->title = t('Your Jobs');
-	$jobs->language = 'en';
-	$jobs->body[$jobs->language][0]['value'] = 'Your value';
-	$jobs->body[$jobs->language][0]['summary'] = 'Your summary';
-	$jobs->body[$jobs->language][0]['format'] = 'filtered_html';
-	$jobs->menu = array(
-	    'enabled' => 1,
-	    'mlid' => 0,
-	    'module' => 'menu',
-	    'hidden' => 0,
-	    'has_children' => 0,
-	    'customized' => 0,
-	    'options' => array(),
-	    'expanded' => 0,
-	    'parent_depth_limit' => 8,
-	    'link_title' => t('Jobs'),
-	    'description' => '',
-	    'parent' => 'main-menu:0',
-	    'weight' => 10,
-	    'plid' => 0,
-	    'menu_name' => 'main-menu'
-	);
-
-
-	$jobs->path['alias'] = 'Jobs';
-
-	$jobs->status = 1;        
-	$jobs->promote = 0;
-	$jobs->revision = 0;
-	node_save($jobs);
-// My account page
-	$my_account = new stdClass();
-	$my_account->type = 'page';
-	node_object_prepare($my_account);
-	$my_account->title = t('My account');
-	$my_account->language = 'en';
-	$my_account->body[$my_account->language][0]['value'] = 'Your value';
-	$my_account->body[$my_account->language][0]['summary'] = 'Your summary';
-	$my_account->body[$my_account->language][0]['format'] = 'filtered_html';
-	$my_account->menu = array(
-	    'enabled' => 1,
-	    'mlid' => 0,
-	    'module' => 'menu',
-	    'hidden' => 0,
-	    'has_children' => 0,
-	    'customized' => 0,
-	    'options' => array(),
-	    'expanded' => 0,
-	    'parent_depth_limit' => 8,
-	    'link_title' => t('My account'),
-	    'description' => '',
-	    'parent' => 'main-menu:0',
-	    'weight' => 15,
-	    'plid' => 0,
-	    'menu_name' => 'main-menu'
-	);
-
-
-	$my_account->path['alias'] = 'my_account';
-
-	$my_account->status = 1;       
-	$my_account->promote = 0;
-	$my_account->revision = 0;
-	node_save($my_account);
-
-//License page
-
-	$license = new stdClass();
-	$license->type = 'page';
-	node_object_prepare($my_account);
-	$license->title = t('License');
-	$my_account->language = 'en';
-	$my_account->body[$my_account->language][0]['value'] = 'Your value';
-	$my_account->body[$my_account->language][0]['summary'] = 'Your summary';
-	$my_account->body[$my_account->language][0]['format'] = 'filtered_html';
-
-	$my_account->path['alias'] = 'license';
-
-	$my_account->status = 1;       
-	$my_account->promote = 0;
-	$my_account->revision = 0;
-	node_save($my_account);
+	$page_propertys = create_pages_properties();
+	foreach ($page_propertys as $page_property) {
+		create_page_vidth_menu_linc($page_property);
+	}
 
 // Atomyx help node creation
   $t = get_t();
@@ -260,5 +182,6 @@ function atomyx_portal_uninstall()
 		field_purge_batch(1000);
 		entity_info_cache_clear();
 		cache_clear_all();
+
 }
 
