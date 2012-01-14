@@ -55,7 +55,7 @@ function atomyx_portal_install() {
 	    'options' => array(),
 	    'expanded' => 0,
 	    'parent_depth_limit' => 8,
-	    'link_title' => t('Deliver');,
+	    'link_title' => t('Deliver'),
 	    'description' => '',
 	    'parent' => 'main-menu:0',
 	    'weight' => 5,
