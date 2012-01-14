@@ -1,6 +1,0 @@
-name = Atomix Portal
-description = "The Atomix Portal."
-package = "Atomix Portal"
-project = "Atomix Portal"
-core = 7.x
-files[] = hren.module
