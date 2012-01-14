@@ -3,4 +3,7 @@ description = "The Atomyx Portal."
 package = "Atomyx Portal"
 project = "Atomyx Portal"
 core = 7.x
-files[] = hren.module
+
+dependencies[] = cck_table
+
+files[] = atomyx_portal.module
