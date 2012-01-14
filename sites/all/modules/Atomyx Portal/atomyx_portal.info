@@ -1,0 +1,6 @@
+name = Atomyx Portal
+description = "The Atomyx Portal."
+package = "Atomyx Portal"
+project = "Atomyx Portal"
+core = 7.x
+files[] = hren.module

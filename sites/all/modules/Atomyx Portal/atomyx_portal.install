@@ -1,11 +1,11 @@
 <?php
 
-function hren_install() {
+function atomyx_portal_install() {
 // Wellcome page
 	$wellcome = new stdClass();
 	$wellcome->type = 'page';
 	node_object_prepare($wellcome);
-	$wellcome->title = 'Wellcome';
+	$wellcome->title = t('Wellcome!');
 	$wellcome->language = 'en';
 	$wellcome->body[$wellcome->language][0]['value'] = 'Your value';
 	$wellcome->body[$wellcome->language][0]['summary'] = 'Your summary';
@@ -16,11 +16,11 @@ function hren_install() {
 	    'module' => 'menu',
 	    'hidden' => 0,
 	    'has_children' => 0,
-	    'customized' => 0,
+	    'customized' => 1,
 	    'options' => array(),
 	    'expanded' => 0,
 	    'parent_depth_limit' => 8,
-	    'link_title' => 'Wellcome',
+	    'link_title' => t('Wellcome!'),
 	    'description' => '',
 	    'parent' => 'main-menu:0',
 	    'weight' => 0,
@@ -29,9 +29,9 @@ function hren_install() {
 	);
 
 
-	$wellcome->path['alias'] = 'Wellcome';
+	$wellcome->path['alias'] = 'wellcome';
 
-	$wellcome->status = 1;        // 1 means published
+	$wellcome->status = 1;       
 	$wellcome->promote = 0;
 	$wellcome->revision = 0;
 	node_save($wellcome);
@@ -40,7 +40,7 @@ function hren_install() {
 	$deliver = new stdClass();
 	$deliver->type = 'page';
 	node_object_prepare($deliver);
-	$deliver->title = 'Deliver';
+	$deliver->title = t('Deliver your work');
 	$deliver->language = 'en';
 	$deliver->body[$deliver->language][0]['value'] = 'Your value';
 	$deliver->body[$deliver->language][0]['summary'] = 'Your summary';
@@ -55,7 +55,7 @@ function hren_install() {
 	    'options' => array(),
 	    'expanded' => 0,
 	    'parent_depth_limit' => 8,
-	    'link_title' => 'Deliver',
+	    'link_title' => t('Deliver');,
 	    'description' => '',
 	    'parent' => 'main-menu:0',
 	    'weight' => 5,
@@ -64,9 +64,9 @@ function hren_install() {
 	);
 
 
-	$deliver->path['alias'] = 'Deliver';
+	$deliver->path['alias'] = 'deliver';
 
-	$deliver->status = 1;        // 1 means published
+	$deliver->status = 1;      
 	$deliver->promote = 0;
 	$deliver->revision = 0;
 	node_save($deliver);
@@ -75,7 +75,7 @@ function hren_install() {
 	$jobs = new stdClass();
 	$jobs->type = 'page';
 	node_object_prepare($jobs);
-	$jobs->title = 'Your Jobs';
+	$jobs->title = t('Your Jobs');
 	$jobs->language = 'en';
 	$jobs->body[$jobs->language][0]['value'] = 'Your value';
 	$jobs->body[$jobs->language][0]['summary'] = 'Your summary';
@@ -90,7 +90,7 @@ function hren_install() {
 	    'options' => array(),
 	    'expanded' => 0,
 	    'parent_depth_limit' => 8,
-	    'link_title' => 'Your Jobs',
+	    'link_title' => t('Jobs'),
 	    'description' => '',
 	    'parent' => 'main-menu:0',
 	    'weight' => 10,
@@ -101,7 +101,7 @@ function hren_install() {
 
 	$jobs->path['alias'] = 'Jobs';
 
-	$jobs->status = 1;        // 1 means published
+	$jobs->status = 1;        
 	$jobs->promote = 0;
 	$jobs->revision = 0;
 	node_save($jobs);
@@ -109,7 +109,7 @@ function hren_install() {
 	$my_account = new stdClass();
 	$my_account->type = 'page';
 	node_object_prepare($my_account);
-	$my_account->title = 'My account';
+	$my_account->title = t('My account');
 	$my_account->language = 'en';
 	$my_account->body[$my_account->language][0]['value'] = 'Your value';
 	$my_account->body[$my_account->language][0]['summary'] = 'Your summary';
@@ -124,7 +124,7 @@ function hren_install() {
 	    'options' => array(),
 	    'expanded' => 0,
 	    'parent_depth_limit' => 8,
-	    'link_title' => 'My account',
+	    'link_title' => t('My account'),
 	    'description' => '',
 	    'parent' => 'main-menu:0',
 	    'weight' => 15,
@@ -133,12 +133,32 @@ function hren_install() {
 	);
 
 
-	$my_account->path['alias'] = 'My account';
+	$my_account->path['alias'] = 'my_account';
 
-	$my_account->status = 1;        // 1 means published
+	$my_account->status = 1;       
 	$my_account->promote = 0;
 	$my_account->revision = 0;
 	node_save($my_account);
+
+//License page
+
+	$license = new stdClass();
+	$license->type = 'page';
+	node_object_prepare($my_account);
+	$license->title = t('License');
+	$my_account->language = 'en';
+	$my_account->body[$my_account->language][0]['value'] = 'Your value';
+	$my_account->body[$my_account->language][0]['summary'] = 'Your summary';
+	$my_account->body[$my_account->language][0]['format'] = 'filtered_html';
+
+	$my_account->path['alias'] = 'license';
+
+	$my_account->status = 1;       
+	$my_account->promote = 0;
+	$my_account->revision = 0;
+	node_save($my_account);
+
+//
 }
 
 
