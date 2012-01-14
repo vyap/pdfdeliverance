@@ -1,21 +1,20 @@
 <?php
 function hren_block_info() {
-  $blocks['atomyxhelp'] = array(
- 	'info'   => t('Atomyx help block'), //The name that will appear in the block list.
- 	'cache'  => DRUPAL_NO_CACHE, //Disable cache
- 	'region' => 'content',
- 	'pages'  =>  'HUI',
-   	'visibility' => BLOCK_VISIBILITY_LISTED,  
-   	'status' => 1,
- 	'weight' => -30,
- );
+	$blocks['atomyxhelp'] = array(
+		'info'   => t('Atomyx help block'), //The name that will appear in the block list.
+		'cache'  => DRUPAL_NO_CACHE, //Disable cache
+		'region' => 'content',
+		'pages'  =>  'HUI',
+		'visibility' => BLOCK_VISIBILITY_LISTED,  
+		'status' => 1,
+		'weight' => -30,
+	);
 
-  $blocks['her2'] = array(
-	'info' => t('HER2'),
-	'cache' => DRUPAL_CACHE_PER_ROLE, // default
-  );
+	$blocks['her2'] = array(
+		'info' => t('HER2'),
+		'cache' => DRUPAL_CACHE_PER_ROLE, // default
+	);
 
-	
 	return $blocks;
 }
 
