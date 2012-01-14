@@ -4,7 +4,7 @@ function hren_block_info() {
 		'info'   => t('Atomyx help block'), //The name that will appear in the block list.
 		'cache'  => DRUPAL_NO_CACHE, //Disable cache
 		'region' => 'content',
-		'pages'  =>  'HUI',
+		'pages'  =>  'Jobs',
 		'visibility' => BLOCK_VISIBILITY_LISTED,  
 		'status' => 1,
 		'weight' => -30,
@@ -13,6 +13,16 @@ function hren_block_info() {
 	$blocks['her2'] = array(
 		'info' => t('HER2'),
 		'cache' => DRUPAL_CACHE_PER_ROLE, // default
+	);
+
+	$blocks['wellcome'] = array(
+		'info'   => t('wellcome'), //The name that will appear in the block list.
+		'cache'  => DRUPAL_NO_CACHE, //Disable cache
+		'region' => 'content',
+		'pages'  =>  'Wellcome',
+		'visibility' => BLOCK_VISIBILITY_LISTED,  
+		'status' => 1,
+		'weight' => -30,
 	);
 
 	return $blocks;
@@ -29,6 +39,10 @@ function hren_block_view($hui = "") {
 			$block['subject'] = t('Title of second block (example_empty)');
 			$block['content'] = "Ёбаный второй блок";
 			break;
+		case "wellcome":
+			$block['subject'] = t('Title of Wellcome block');
+			$block['content'] = t('content wellcome');
+		break;
 	}
 	
 	return $block;
