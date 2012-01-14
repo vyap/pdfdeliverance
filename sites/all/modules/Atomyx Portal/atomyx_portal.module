@@ -68,3 +68,12 @@ function atomyx_portal_block_view($hui = "") {
 	
 	return $block;
 }
+
+
+function atomyx_portal_entity_info_alter(&$entity_info) {
+  // Add our new view mode to the list of view modes...
+  $entity_info['node']['view modes']['atomyx_portal_node_list'] = array(
+    'label' => t('Atomyx Portal node list'),
+    'custom settings' => TRUE,
+  );
+}
