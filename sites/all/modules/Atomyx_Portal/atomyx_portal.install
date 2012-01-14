@@ -158,7 +158,7 @@ function atomyx_portal_install() {
 	$my_account->revision = 0;
 	node_save($my_account);
 
-// help
+// Atomyx help node creation
   $t = get_t();
 
   $node_atomhelp = array(
@@ -169,19 +169,46 @@ function atomyx_portal_install() {
     'body_label' => $t('Help Description'),
     'custom' => TRUE,
   );
-  $content_type = node_type_set_defaults($node_atomhelp);
+  $help_content_type = node_type_set_defaults($node_atomhelp);
 
-  node_type_save($content_type);
-
-  foreach (_node_atomhelp_installed_fields() as $field) {
-    field_create_field($field);
+  node_type_save($help_content_type);
+  include_once('atomyx_help.fields.inc');
+  foreach (_node_atomhelp_installed_fields() as $help_field) {
+    field_create_field($help_field);
   }
 
-  foreach (_node_atomhelp_installed_instances() as $instance) {
-    $instance['entity_type'] = 'node';
-    $instance['bundle'] = $node_atomhelp['type'];
-    field_create_instance($instance);
+  foreach (_node_atomhelp_installed_instances() as $help_instance) {
+    $help_instance['entity_type'] = 'node';
+    $help_instance['bundle'] = $node_atomhelp['type'];
+    field_create_instance($help_instance);
   }
+  
+  //Product node type creation
+  
+	$node_product = array(
+		'type'        => 'atomyx_product',
+		'name'        => t('Product'),
+		'base'        => 'node_content',
+		'description' => t('Product type node.'),
+		'custom'      => TRUE,
+	);
+
+	$product_content_type = node_type_set_defaults($node_product);
+
+// Save the Product content type
+	node_type_save($product_content_type);
+	include_once('atomyx_product.fields.inc');
+//Product node fields creation
+	foreach (_product_node_installed_fields() as $product_field) {
+		field_create_field($product_field);
+	}
+
+	foreach (_product_node_installed_instances() as $product_instance) {
+		$product_instance['entity_type'] = 'node';
+		$product_instance['bundle'] = $node_product['type'];
+		field_create_instance($product_instance);
+	}
+
 
 }
 function atomyx_portal_uninstall() 
@@ -190,7 +217,7 @@ function atomyx_portal_uninstall()
 	# ADD uninstal for page`s!!
 	#
 
-	///	  uninstall node atomix help
+	///	  uninstall node Atomix help
 	$sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
 	$result = db_query($sql, array(':type' => 'node_atomhelp'));
 	$nids = array();
@@ -198,110 +225,39 @@ function atomyx_portal_uninstall()
 		$nids[] = $row->nid;
 	}
 	node_delete_multiple($nids);
-	foreach (array_keys(_node_atomhelp_installed_fields()) as $field) {
-		field_delete_field($field);
+	include_once('atomyx_help.fields.inc');
+	foreach (array_keys(_node_atomhelp_installed_fields()) as $help_field) {
+		field_delete_field($help_field);
 	}
-	$instances = field_info_instances('node', 'node_atomhelp');
-	foreach ($instances as $instance_name => $instance) {
-		field_delete_instance($instance);
+	$help_instances = field_info_instances('node', 'node_atomhelp');
+	foreach ($help_instances as $instance_name => $help_instance) {
+		field_delete_instance($help_instance);
 	}
 	node_type_delete('node_atomhelp');
 	field_purge_batch(1000);
+	
+//Product node uninstall
+		$sql = 'SELECT nid FROM {node} n WHERE n.type = :type';
+		$result = db_query($sql, array(':type' => 'atomyx_product'));
+		$nids = array();
+		foreach ($result as $row) {
+			$nids[] = $row->nid;
+		}
+
+		node_delete_multiple($nids);
+			include_once('atomyx_product.fields.inc');
+		foreach (array_keys(_product_node_installed_fields()) as $product_field) {
+			field_delete_field($product_field);
+		}
+
+		$product_instances = field_info_instances('node', 'atomyx_product');
+		foreach ($product_instances as $instance_name => $product_instance) {
+			field_delete_instance($product_instance);
+		}
+
+		node_type_delete('atomyx_product');
+
+		field_purge_batch(1000);
+	
 }
 
-
-function _node_atomhelp_installed_fields() 
-{
-	$t = get_t();
-	return array(
-		'field_helpbody' => array(
-			'field_name' => 'field_helpbody',
-			'cardinality' => 1,
-			'type' => 'text_with_summary',
-		),
-		'field_helppage' => array(
-			'field_name'    => 'field_helppage',
-			'type'          => 'list_text',
-			'cardinality'   => 1,
-			'settings'      =>array(
-				'allowed_values'=>array(
-					'all'       => 'all',
-					''          => 'home',
-					'myproducts'=> 'myproducts',
-					'deliver'   => 'deliver',
-					'closer'    => 'closer',
-					'bummer'    => 'bummer',
-					'close'     => 'close',
-					'success'   => 'success',
-					'jobs'      => 'jobs',
-					'license'   => 'license',
-					'upload'    => 'upload',
-					'approve'   => 'approve',
-					'mydelivery'=> 'mydelivery',
-					'closecall'=> 'closecall',
-					'change'=> 'change',
-					'welcome'=> 'welcome',
-				),
-			),
-		),
-		'field_helpweight' => array(
-			'field_name' => 'field_helpweight',
-			'cardinality' => 1,
-			'type'        => 'text',
-			'settings'    => array(
-				'max_length' => 60,
-			),
-		),
-	); 
-}
-function _node_atomhelp_installed_instances()
-{
-	$t = get_t();
-	return array(  
-		'field_helpbody' => array(
-			'field_name' => 'field_helpbody',
-			'label'       => $t('Body:'),
-			'required' => TRUE,
-			'widget'      => array(
-				'type'    => 'text_textarea_with_summary',
-			),
-
-			'display' => array(
-				'atomhelp_node_list' => array(
-					'label' => 'above',
-					'type' => 'text_textnode',
-				),
-			),
-
-		),  
-		'field_helppage' => array(
-			'field_name' => 'field_helppage',
-			'label'       => $t('Page:'),
-			'required' => TRUE,
-			'widget'      => array(
-				'type'    => 'options_select',
-			),
-			'display' => array(
-				'atomhelp_node_list' => array(
-					'label' => 'above',
-					'type' => 'list_default',
-				),
-			),
-		),
-		'field_helpweight' => array(
-			'field_name' => 'field_helpweight',
-			'label'       => $t('Weight:'),
-			'required' => TRUE,
-			'widget'      => array(
-				'type'    => 'text_textnode',
-			),
-			'display' => array(
-				'atomhelp_node_list' => array(
-					'label' => 'above',
-					'type' => 'text',
-				),
-			),
-		),
-	);
-   
-}
