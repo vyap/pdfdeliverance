@@ -258,6 +258,7 @@ function atomyx_portal_uninstall()
 		node_type_delete('atomyx_product');
 
 		field_purge_batch(1000);
-	
+		entity_info_cache_clear();
+		cache_clear_all();
 }
 
