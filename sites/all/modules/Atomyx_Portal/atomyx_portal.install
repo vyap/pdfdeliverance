@@ -62,15 +62,6 @@ function create_pages_properties() {
 			'page_alias' => 'jobs',
 			'page_weight' => 3,
 		),
-		/*'my_account' => array(
-			'page_title' => 'My account',
-			'page_language' => 'en',
-			'body_format' => 'filtered_html',
-			'menu_link_title' => 'My account',
-			'page_alias' => 'user',
-			'page_weight' => 4,
-		),*/
-		
 	);
 }
 
