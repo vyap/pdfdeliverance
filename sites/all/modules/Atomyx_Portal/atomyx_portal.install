@@ -1,6 +1,6 @@
 <?php
 
-function create_page_vidth_menu_linc($page_property = array()) {
+function create_page_with_menu_linc($page_property = array()) {
 	$page = new stdClass();
 	$page->type = 'page';
 	node_object_prepare($page);
@@ -58,19 +58,10 @@ function create_pages_properties() {
 			'page_title' => 'Your Jobs',
 			'page_language' => 'en',
 			'body_format' => 'filtered_html',
-			'menu_link_title' => 'jobs',
+			'menu_link_title' => 'Jobs',
 			'page_alias' => 'jobs',
 			'page_weight' => 3,
 		),
-		/*'my_account' => array(
-			'page_title' => 'My account',
-			'page_language' => 'en',
-			'body_format' => 'filtered_html',
-			'menu_link_title' => 'My account',
-			'page_alias' => 'user',
-			'page_weight' => 4,
-		),*/
-		
 	);
 }
 
@@ -79,7 +70,7 @@ function create_pages_properties() {
 function atomyx_portal_install() {
 	$page_propertys = create_pages_properties();
 	foreach ($page_propertys as $page_property) {
-		create_page_vidth_menu_linc($page_property);
+		create_page_with_menu_linc($page_property);
 	}
 	
 	require_once('block_default_texts.inc');
