@@ -36,22 +36,40 @@ function atomyx_portal_block_info() {
 
 function atomyx_portal_block_configure($delta = '') {
 	$form = array();
-	if ($delta == 'atomyxhelp') {
-		$form['atomyxhelp_string'] = array(
-			'#type' => 'textfield',
-			'#title' => t('Block contents'),
-			'#size' => 60,
-			'#description' => t('This text will appear in the atomyxhelp block.'),
-			'#default_value' => variable_get('atomyxhelp_example_string',  t('Some example content.')),
-		);
+	switch($delta) {
+		case 'atomyxhelp' : 
+			$form['atomyxhelp_string'] = array(
+				'#type' => 'textfield',
+				'#title' => t('Block contents'),
+				'#size' => 60,
+				'#description' => t('This text will appear in the atomyxhelp block.'),
+				'#default_value' => variable_get('atomyxhelp_example_string', t('Some example content.')),
+			);
+			break;
+		case 'deliver' :
+			$form['job_actions_help'] = array(
+				'#type' => 'text_format',
+				'#title' => t('Job actions help.'),
+				'#size' => 60,
+				'#description' => t('Explanation of what user can see in table of jobs after the job  was validated.'),
+				'#default_value' => variable_get('job_actions_help', variable_get('job_actions_help_default',t('Explanation of what user can see in table of jobs after the job  was validated.'))),
+			);
+			break;
 	}
+
 	return $form;
 }
 
 function atomyx_portal_block_save($delta = '', $edit = array()) {
-	if ($delta == 'atomyxhelp') {
-		variable_set('atomyxhelp_example_string', $edit['atomyxhelp_string']);
+	switch($delta) {
+		case 'deliver' :
+			variable_set('job_actions_help', $edit['job_actions_help']);
+			break;
+		case 'atomyxhelp' :
+			variable_set('atomyxhelp_example_string', $edit['atomyxhelp_string']);
+			break;
 	}
+
 	return;
 }
 
