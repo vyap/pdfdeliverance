@@ -62,17 +62,19 @@ function create_pages_properties() {
 			'page_alias' => 'jobs',
 			'page_weight' => 3,
 		),
-		'my_account' => array(
+		/*'my_account' => array(
 			'page_title' => 'My account',
 			'page_language' => 'en',
 			'body_format' => 'filtered_html',
 			'menu_link_title' => 'My account',
-			'page_alias' => 'my_account',
+			'page_alias' => 'user',
 			'page_weight' => 4,
-		),
+		),*/
 		
 	);
 }
+
+
 
 function atomyx_portal_install() {
 	$page_propertys = create_pages_properties();
@@ -180,6 +182,8 @@ function atomyx_portal_uninstall()
 		node_type_delete('atomyx_product');
 
 		field_purge_batch(1000);
+
+
 		entity_info_cache_clear();
 		cache_clear_all();
 
