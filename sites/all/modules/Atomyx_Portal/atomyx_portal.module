@@ -10,9 +10,15 @@ function atomyx_portal_block_info() {
 		'weight' => -30,
 	);
 
-	$blocks['her2'] = array(
-		'info' => t('HER2'),
+	$blocks['deliver'] = array(
+		'info' => t('Deliver'),
 		'cache' => DRUPAL_CACHE_PER_ROLE, // default
+		'cache'  => DRUPAL_NO_CACHE, //Disable cache
+		'region' => 'content',
+		'pages'  =>  'deliver',
+		'visibility' => BLOCK_VISIBILITY_LISTED,  
+		'status' => 1,
+		'weight' => -30,
 	);
 
 	$blocks['wellcome'] = array(
@@ -50,15 +56,16 @@ function atomyx_portal_block_save($delta = '', $edit = array()) {
 }
 
 
-function atomyx_portal_block_view($hui = "") {
-	switch($hui) {
+function atomyx_portal_block_view($delta = "") {
+	switch($delta) {
 		case "atomyxhelp" : 
 			$block['subject'] = t('Title of second block (example_empty)');
 			$block['content'] = variable_get('atomyxhelp_example_string',  t('Some example content.'));
 			break;
-		case "her2" : 
+		case "deliver" : 
 			$block['subject'] = t('Title of second block (example_empty)');
-			$block['content'] = "Ёбаный второй блок";
+			require_once("deliver_form.inc");
+			$block['content'] = drupal_get_form("_deliver_form");
 			break;
 		case "wellcome":
 			$block['subject'] = t('Title of Wellcome block');
