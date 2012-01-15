@@ -1,4 +1,23 @@
 <?php
+
+	function atomyx_portal_menu() {
+		$items['my_profile'] = array( // path to your module output
+			'title'           => 'My profile',
+			'page callback'   => 'atomyx_my_account', // function that is called when you land to this url
+			'access callback' => TRUE, // always and everybody can access this url
+			'type'            => MENU_NORMAL_ITEM, // no menu item will be made, simple callback is made
+			'weight'          => 10,
+			'menu_name'       => 'main-menu',
+		);
+		return $items;
+	}
+
+	function atomyx_my_account() {
+		return drupal_goto('user');;
+	}
+
+	
+	
 function atomyx_portal_block_info() {
 	$blocks['atomyxhelp'] = array(
 		'info'   => t('Atomyx help block'), //The name that will appear in the block list.

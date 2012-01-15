@@ -1,6 +1,6 @@
 <?php
 
-function create_page_vidth_menu_linc($page_property = array()) {
+function create_page_with_menu_linc($page_property = array()) {
 	$page = new stdClass();
 	$page->type = 'page';
 	node_object_prepare($page);
@@ -79,7 +79,7 @@ function create_pages_properties() {
 function atomyx_portal_install() {
 	$page_propertys = create_pages_properties();
 	foreach ($page_propertys as $page_property) {
-		create_page_vidth_menu_linc($page_property);
+		create_page_with_menu_linc($page_property);
 	}
 
 // Atomyx help node creation
