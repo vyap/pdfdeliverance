@@ -1,23 +1,197 @@
 <?php
 
 	function atomyx_portal_menu() {
-		$items['my_profile'] = array( // path to your module output
+		$items['my_profile'] = array(
 			'title'           => 'My profile',
-			'page callback'   => 'atomyx_my_account', // function that is called when you land to this url
-			'access callback' => TRUE, // always and everybody can access this url
-			'type'            => MENU_NORMAL_ITEM, // no menu item will be made, simple callback is made
+			'page callback'   => 'atomyx_my_account',
+			'access callback' => TRUE,
+			'type'            => MENU_NORMAL_ITEM,
 			'weight'          => 10,
 			'menu_name'       => 'main-menu',
 		);
+		$items['product'] = array(
+			'title' => 'Config path',
+			'access callback' => TRUE,
+			'page callback' => 'product_page',
+			'type' => MENU_LOCAL_TASK
+		);
+
+		$items['admin/config/search/product'] = array(
+			'title' => 'Configure path settings for PDFDeliverance',
+			'description' => 'Configure path for files.',
+			'page callback' => 'drupal_get_form',
+			'page arguments' => array('atomyx_portal_settings'),
+			'access callback' => 'user_access',
+			'access arguments' => array('administer site configuration'),
+			'type' => MENU_NORMAL_ITEM,
+		);
+
 		return $items;
+	}
+
+	function product_page() {
+		return $output = '';
 	}
 
 	function atomyx_my_account() {
 		return drupal_goto('user');;
 	}
 
+	function atomyx_portal_settings() {
+
+		$title = db_query("SELECT path1, path2, path3, check1, check2 FROM {file_path} WHERE pathid = 1", array('pathid' => 1))->FetchAssoc();
+
+		 $form = array(
+			'#prefix' => '<div class="path_form" id= "pform">', 
+			'#suffix' => '</div>', );
+
+		 $form['pathfilesfolder'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Deliver all files to the following folder:'),
+			'#default_value' => $title['path1'],
+			'#size' => 50,
+			'#maxlength' => 250,
+			'#description' => t('Field for files path'),
+			'#required' => true,
+			'#prefix' => '<div class="sub2" id="pathfilesfolder">', 
+			'#suffix' => '</div>', 
+		 );
+
+
+		$form['folderperproduct'] = array(
+			'#type' => 'checkbox',
+			'#title' => t('Create a separate sub folder per product'),
+			'#default_value' => $title['check1'], 
+			'#return_value' => 1,
+			'#prefix' => '<div class="sub3" id="check1">', 
+			'#suffix' => '</div>',
+		); 
+
+		$form['folderperjob'] = array(
+			'#type' => 'checkbox',
+			'#title' => t('Deliver each file in its own job folder'),
+			'#default_value' => $title['check2'], 
+			'#return_value' => 1,
+			'#prefix' => '<div class="pathdiv" id="check2">', 
+			'#suffix' => '</div>',
+		); 
+		 
+		 $form['pathtestfilesfolder'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Deliver all tests to the following folder:'),
+			'#default_value' => $title['path2'],
+			'#size' => 50,
+			'#maxlength' => 250,
+			'#description' => t('Field for tests path'),
+			'#required' => true,
+			'#prefix' => '<div class="pathdiv" id="pathtestfilesfolder">', 
+			'#suffix' => '</div>', 
+		 );
+		 
+		 
+		 
+		 $form['pathpdftool'] = array(
+			'#type' => 'textfield',
+			'#title' => t('pdfToolbox CLI location:'),
+			'#default_value' => $title['path3'],
+			'#size' => 50,
+			'#maxlength' => 250,
+			'#description' => t('AtomyxPortal Tool path'),
+			'#required' => true,
+			'#prefix' => '<div class="pathdiv" id="pathpdftool">', 
+			'#suffix' => '</div>', 
+		);
+		$form['submitpathpage'] = array(
+				'#type' => 'submit',
+				'#value' => t('Save'),
+				'#prefix' => '<div  id="submitpathpage" >', 
+				'#suffix' => '</div>', 
+				'#submit' => array('system_settings_submit'),
+		); 
+	}
 	
+	function system_settings_submit($form, &$form_state) {
 	
+ 
+$files = $form_state['values']['pathfilesfolder'];
+        $tests = $form_state['values']['pathtestfilesfolder'];
+        $tool = $form_state['values']['pathpdftool'];
+        
+ 		  $pathstart = $form_state['values']['djob_start_page'];
+        $pathbummer = $form_state['values']['job_bummer'];
+        $pathclose = $form_state['values']['job_close'];
+        $pathsuccess = $form_state['values']['job_success'];
+        $pathtable = $form_state['values']['job_table'];
+        $pathlicense = $form_state['values']['license'];
+        $pathupload = $form_state['values']['upload'];
+        $pathapprove = $form_state['values']['approve'];        
+        
+        
+               
+        if(isset($_POST['folderperproduct']))        
+                $ch1 = check_plain($_POST['folderperproduct']);
+        else {$ch1 = 0;};
+        
+ 			if(isset($_POST['folderperjob']))        
+                $ch2 = check_plain($_POST['folderperjob']);
+        else {$ch2 = 0;} ; 
+        
+            $query = db_select('file_path');
+				$query->addExpression('COUNT(*)');
+				$count = $query->execute()->fetchField();     
+				
+				if ($count ==0 )
+				
+				  $result = db_insert('file_path')
+           ->fields(array(
+             'pathid' => 1,
+             'path1' => $files,
+             'path2' => $tests,
+             'check1' => $ch1,
+             'check2' => $ch2,
+             'path3' => $tool,
+           ))
+   ->execute(); 
+   
+           else { 
+   
+   db_update('file_path')
+    ->fields(array(
+             'pathid' => 1,
+             'path1' => $files,
+             'path2' => $tests,
+             'check1' => $ch1,
+             'check2' => $ch2,
+             'path3' => $tool,
+           ))
+    ->condition('pathid', 1)
+    ->execute(); };
+    
+    
+      db_update('pages')
+    ->fields(array(
+             
+      'djob_start_page' => $pathstart,
+      'job_bummer'  => $pathbummer,
+       'job_close' => $pathclose,
+	'job_success ' => $pathsuccess,
+	  'job_table ' => $pathtable,
+	  'license' => $pathlicense,
+	  'upload'=> $pathupload ,
+	  'approve' => $pathapprove,
+           ))
+    ->condition('aid', 1)
+    ->execute(); 
+
+
+
+
+  drupal_set_message('The data added '); 
+ 
+}
+
+
+
 function atomyx_portal_block_info() {
 	$blocks['atomyxhelp'] = array(
 		'info'   => t('Atomyx help block'), //The name that will appear in the block list.

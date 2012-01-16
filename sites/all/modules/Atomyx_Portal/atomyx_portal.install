@@ -36,6 +36,53 @@ function create_page_with_menu_linc($page_property = array()) {
 	node_save($page);
 }
 
+function atomyx_portal_schema() {
+	$schema['file_path'] = array(
+		'description' => t('files, tests path information.'),
+		'fields' => array(
+			'pathid' => array(
+				'description' => t(' id'),
+				'type' => 'serial',
+				'unsigned' => TRUE,
+			),
+
+			'path1' => array(
+				'description' => t('files path'),
+				'type' => 'varchar',
+				'length' => 250,
+			),
+
+			'check1' => array(
+				'description' => t('separated folder'),
+				'type' => 'int',
+				'length' => 4,
+				'unsigned' => TRUE,
+			),
+
+			'check2' => array(
+				'description' => t('to own folder'),
+				'type' => 'int',
+				'length' => 4,
+				'unsigned' => TRUE,
+			),
+
+			'path2' => array(
+				'description' => t('tests path'),
+				'type' => 'varchar',
+				'length' => 250,
+			),
+
+			'path3' => array(
+				'description' => t('files path'),
+				'type' => 'varchar',
+				'length' => 250,
+			),
+		),
+		'primary key' => array('pathid'),
+	);
+	return $schema;
+}
+
 function create_pages_properties() {
 	return array(
 		'wellcome' => array(
@@ -174,7 +221,8 @@ function atomyx_portal_uninstall()
 
 		field_purge_batch(1000);
 
-
+		db_drop_table('file_path');
+		
 		entity_info_cache_clear();
 		cache_clear_all();
 
