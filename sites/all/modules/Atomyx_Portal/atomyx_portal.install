@@ -40,45 +40,45 @@ function atomyx_portal_schema() {
 	$schema['file_path'] = array(
 		'description' => t('files, tests path information.'),
 		'fields' => array(
-			'pathid' => array(
+			'id' => array(
 				'description' => t(' id'),
 				'type' => 'serial',
 				'unsigned' => TRUE,
 			),
 
-			'path1' => array(
+			'files_path' => array(
 				'description' => t('files path'),
 				'type' => 'varchar',
 				'length' => 250,
 			),
 
-			'check1' => array(
+			'folder_per_product' => array(
 				'description' => t('separated folder'),
 				'type' => 'int',
 				'length' => 4,
 				'unsigned' => TRUE,
 			),
 
-			'check2' => array(
+			'folder_per_job' => array(
 				'description' => t('to own folder'),
 				'type' => 'int',
 				'length' => 4,
 				'unsigned' => TRUE,
 			),
 
-			'path2' => array(
+			'tests_path' => array(
 				'description' => t('tests path'),
 				'type' => 'varchar',
 				'length' => 250,
 			),
 
-			'path3' => array(
-				'description' => t('files path'),
+			'pdfcli_path' => array(
+				'description' => t('PDF CLI path'),
 				'type' => 'varchar',
 				'length' => 250,
 			),
 		),
-		'primary key' => array('pathid'),
+		'primary key' => array('id'),
 	);
 	return $schema;
 }
@@ -224,7 +224,7 @@ function atomyx_portal_uninstall()
 
 		field_purge_batch(1000);
 
-		db_drop_table('file_path');
+		//db_drop_table('file_path');
 		
 		entity_info_cache_clear();
 		cache_clear_all();

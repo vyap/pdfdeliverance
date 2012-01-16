@@ -6,24 +6,27 @@
 			'page callback'   => 'atomyx_my_account',
 			'access callback' => TRUE,
 			'type'            => MENU_NORMAL_ITEM,
-			'weight'          => 10,
+			'weight'          => -10,
 			'menu_name'       => 'main-menu',
 		);
-		$items['product'] = array(
-			'title' => 'Config path',
+		$items['admin/atomyx_portal_administration'] = array(
+			'title'           => 'Atomyx Portal',
+			'page callback'   => 'atomyx_portal_administration',
 			'access callback' => TRUE,
-			'page callback' => 'product_page',
-			'type' => MENU_LOCAL_TASK
+			'type'            => MENU_NORMAL_ITEM,
+			'weight'          => 10,
+			'menu_name'       => 'management',
 		);
 
-		$items['admin/config/search/product'] = array(
-			'title' => 'Configure path settings for PDFDeliverance',
+		$items['admin/atomyx_portal_administration/config'] = array(
+			'title' => 'Path settings',
 			'description' => 'Configure path for files.',
 			'page callback' => 'drupal_get_form',
 			'page arguments' => array('atomyx_portal_settings'),
-			'access callback' => 'user_access',
+			'access callback' => TRUE,
 			'access arguments' => array('administer site configuration'),
 			'type' => MENU_NORMAL_ITEM,
+			'menu_name'       => 'management',
 		);
 
 		return $items;
@@ -37,165 +40,129 @@
 		return drupal_goto('user');;
 	}
 
+	function atomyx_portal_administration() {
+		return $output = 'Hello my dear';
+	}
 	function atomyx_portal_settings() {
 
-		$title = db_query("SELECT path1, path2, path3, check1, check2 FROM {file_path} WHERE pathid = 1", array('pathid' => 1))->FetchAssoc();
+		$title = db_query("SELECT * FROM {file_path} WHERE id = 1", array('id' => 1))->FetchAssoc();
 
 		 $form = array(
-			'#prefix' => '<div class="path_form" id= "pform">', 
+			'#prefix' => '<div class="atomyx_config_form">', 
 			'#suffix' => '</div>', );
 
-		 $form['pathfilesfolder'] = array(
-			'#type' => 'textfield',
-			'#title' => t('Deliver all files to the following folder:'),
-			'#default_value' => $title['path1'],
-			'#size' => 50,
-			'#maxlength' => 250,
-			'#description' => t('Field for files path'),
-			'#required' => true,
-			'#prefix' => '<div class="sub2" id="pathfilesfolder">', 
-			'#suffix' => '</div>', 
+		 $form['atomyx_files_path'] = array(
+			'#type'          => 'textfield',
+			'#title'         => t('Deliver all files to the following folder:'),
+			'#default_value' => $title['files_path'],
+			'#size'          => 50,
+			'#maxlength'     => 250,
+			'#description'   => t('Field for files path'),
+			'#required'      => true,
+			'#prefix'        => '<div class="sub2">', 
+			'#suffix'        => '</div>', 
 		 );
 
 
-		$form['folderperproduct'] = array(
-			'#type' => 'checkbox',
-			'#title' => t('Create a separate sub folder per product'),
-			'#default_value' => $title['check1'], 
-			'#return_value' => 1,
-			'#prefix' => '<div class="sub3" id="check1">', 
-			'#suffix' => '</div>',
+		$form['atomyx_folder_per_product'] = array(
+			'#type'          => 'checkbox',
+			'#title'         => t('Create a separate sub folder per product'),
+			'#default_value' => $title['folder_per_product'], 
+			'#return_value'  => 1,
+			'#prefix'        => '<div class="sub2">', 
+			'#suffix'        => '</div>',
 		); 
 
-		$form['folderperjob'] = array(
-			'#type' => 'checkbox',
-			'#title' => t('Deliver each file in its own job folder'),
-			'#default_value' => $title['check2'], 
-			'#return_value' => 1,
-			'#prefix' => '<div class="pathdiv" id="check2">', 
-			'#suffix' => '</div>',
+		$form['atomyx_folder_per_job'] = array(
+			'#type'          => 'checkbox',
+			'#title'         => t('Deliver each file in its own job folder'),
+			'#default_value' => $title['folder_per_job'], 
+			'#return_value'  => 1,
+			'#prefix'        => '<div class="atomyx_path">', 
+			'#suffix'        => '</div>',
 		); 
 		 
-		 $form['pathtestfilesfolder'] = array(
-			'#type' => 'textfield',
-			'#title' => t('Deliver all tests to the following folder:'),
-			'#default_value' => $title['path2'],
-			'#size' => 50,
-			'#maxlength' => 250,
-			'#description' => t('Field for tests path'),
-			'#required' => true,
-			'#prefix' => '<div class="pathdiv" id="pathtestfilesfolder">', 
-			'#suffix' => '</div>', 
+		 $form['atomyx_tests_path'] = array(
+			'#type'          => 'textfield',
+			'#title'         => t('Deliver all tests to the following folder:'),
+			'#default_value' => $title['tests_path'],
+			'#size'          => 50,
+			'#maxlength'     => 250,
+			'#description'   => t('Field for tests path'),
+			'#required'      => true,
+			'#prefix'        => '<div class="atomyx_path">', 
+			'#suffix'        => '</div>', 
 		 );
 		 
-		 
-		 
-		 $form['pathpdftool'] = array(
-			'#type' => 'textfield',
-			'#title' => t('pdfToolbox CLI location:'),
-			'#default_value' => $title['path3'],
-			'#size' => 50,
-			'#maxlength' => 250,
-			'#description' => t('AtomyxPortal Tool path'),
-			'#required' => true,
-			'#prefix' => '<div class="pathdiv" id="pathpdftool">', 
-			'#suffix' => '</div>', 
+		 $form['atomyx_pdfcli_path'] = array(
+			'#type'          => 'textfield',
+			'#title'         => t('pdfToolbox CLI location:'),
+			'#default_value' => $title['pdfcli_path'],
+			'#size'          => 50,
+			'#maxlength'     => 250,
+			'#description'   => t('AtomyxPortal Tool path'),
+			'#required'      => true,
+			'#prefix'        => '<div class="atomyx_path">', 
+			'#suffix'        => '</div>', 
 		);
-		$form['submitpathpage'] = array(
-				'#type' => 'submit',
-				'#value' => t('Save'),
-				'#prefix' => '<div  id="submitpathpage" >', 
-				'#suffix' => '</div>', 
-				'#submit' => array('system_settings_submit'),
+		$form['atomyx_configs_submit'] = array(
+			'#type'   => 'submit',
+			'#value'  => t('Save'),
+			'#prefix' => '<div >', 
+			'#suffix' => '</div>', 
+			'#submit' => array('atomyx_configs_submit'),
 		); 
+		return $form;
 	}
 	
-	function system_settings_submit($form, &$form_state) {
-	
- 
-$files = $form_state['values']['pathfilesfolder'];
-        $tests = $form_state['values']['pathtestfilesfolder'];
-        $tool = $form_state['values']['pathpdftool'];
-        
- 		  $pathstart = $form_state['values']['djob_start_page'];
-        $pathbummer = $form_state['values']['job_bummer'];
-        $pathclose = $form_state['values']['job_close'];
-        $pathsuccess = $form_state['values']['job_success'];
-        $pathtable = $form_state['values']['job_table'];
-        $pathlicense = $form_state['values']['license'];
-        $pathupload = $form_state['values']['upload'];
-        $pathapprove = $form_state['values']['approve'];        
-        
-        
-               
-        if(isset($_POST['folderperproduct']))        
-                $ch1 = check_plain($_POST['folderperproduct']);
-        else {$ch1 = 0;};
-        
- 			if(isset($_POST['folderperjob']))        
-                $ch2 = check_plain($_POST['folderperjob']);
-        else {$ch2 = 0;} ; 
-        
-            $query = db_select('file_path');
-				$query->addExpression('COUNT(*)');
-				$count = $query->execute()->fetchField();     
-				
-				if ($count ==0 )
-				
-				  $result = db_insert('file_path')
-           ->fields(array(
-             'pathid' => 1,
-             'path1' => $files,
-             'path2' => $tests,
-             'check1' => $ch1,
-             'check2' => $ch2,
-             'path3' => $tool,
-           ))
-   ->execute(); 
-   
-           else { 
-   
-   db_update('file_path')
-    ->fields(array(
-             'pathid' => 1,
-             'path1' => $files,
-             'path2' => $tests,
-             'check1' => $ch1,
-             'check2' => $ch2,
-             'path3' => $tool,
-           ))
-    ->condition('pathid', 1)
-    ->execute(); };
-    
-    
-      db_update('pages')
-    ->fields(array(
-             
-      'djob_start_page' => $pathstart,
-      'job_bummer'  => $pathbummer,
-       'job_close' => $pathclose,
-	'job_success ' => $pathsuccess,
-	  'job_table ' => $pathtable,
-	  'license' => $pathlicense,
-	  'upload'=> $pathupload ,
-	  'approve' => $pathapprove,
-           ))
-    ->condition('aid', 1)
-    ->execute(); 
+	function atomyx_configs_submit($form, &$form_state) {
+		$configs = array();
+		$configs['files_path']  = $form_state['values']['atomyx_files_path'];
+		$configs['tests_path']  = $form_state['values']['atomyx_tests_path'];
+		$configs['pdfcli_path'] = $form_state['values']['atomyx_pdfcli_path'];
 
+		if(isset($_POST['atomyx_folder_per_product']))
+				  $configs['folder_per_product'] = check_plain($_POST['atomyx_folder_per_product']);
+			else {$configs['folder_per_product'] = 0;};
 
+		if(isset($_POST['atomyx_folder_per_job']))
+				  $configs['folder_per_job'] = check_plain($_POST['atomyx_folder_per_job']);
+			else {$configs['folder_per_job'] = 0;}; 
 
+		$query = db_select('file_path');
+			$query->addExpression('COUNT(*)');
+			$count = $query->execute()->fetchField();     
 
-  drupal_set_message('The data added '); 
- 
-}
+		if ($count == 0 ) {
+			$result = db_insert('file_path')
+				->fields(array(
+					'id'                 => 1,
+					'files_path'         => $configs['files_path'],
+					'tests_path'         => $configs['tests_path'],
+					'folder_per_product' => $configs['folder_per_product'],
+					'folder_per_job'     => $configs['folder_per_job'],
+					'pdfcli_path'        => $configs['pdfcli_path'],
+				))
+			->execute(); } else {
+								db_update('file_path')
+										->fields(array(
+											'files_path'         => $configs['files_path'],
+											'tests_path'         => $configs['tests_path'],
+											'folder_per_product' => $configs['folder_per_product'],
+											'folder_per_job'     => $configs['folder_per_job'],
+											'pdfcli_path'        => $configs['pdfcli_path'],
+										))
+										->condition('id', 1)
+										->execute(); };
+		drupal_set_message('The configuration was successfully saved.'); 
+	}
 
 
 
 function atomyx_portal_block_info() {
 	$blocks['atomyxhelp'] = array(
 		'info'   => t('Atomyx help block'), //The name that will appear in the block list.
-		'cache'  => DRUPAL_NO_CACHE, //Disable cacheen
+		'cache'  => DRUPAL_NO_CACHE, //Disable cache
 		'region' => 'content',
 		'pages'  =>  'Jobs',
 		'visibility' => BLOCK_VISIBILITY_LISTED,  
