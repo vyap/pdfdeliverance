@@ -107,13 +107,18 @@ function deliver_form_uploud_file($form, &$form_state) {
 }
 
 function deliver_form_license($form, &$form_state) {
-  $form = array();
-  $form['aunts_name'] = array(
-    '#type' => 'textfield',
-    '#title' => t("Your first cousin's aunt's Social Security number"),
-    '#default_value' => !empty($form_state['values']['aunts_name']) ? $form_state['values']['aunts_name'] : '',
-  );
-  return $form;
+	$form = array(
+		'job_help' => array(
+			'#markup' => variable_get('job_actions_help', variable_get('job_actions_help_default',t('Explanation of what user can see in table of jobs after the job  was validated.'))),
+		),
+		'aunts_name' => array(
+			'#type' => 'textfield',
+			'#title' => t("Your first cousin's aunt's Social Security number"),
+			'#default_value' => !empty($form_state['values']['aunts_name']) ? $form_state['values']['aunts_name'] : '',
+		),
+	);
+
+	return $form;
 }
 
 function deliver_form_submit($form, &$form_state) {

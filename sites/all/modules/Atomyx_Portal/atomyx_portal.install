@@ -119,6 +119,9 @@ function atomyx_portal_install() {
 	foreach ($page_propertys as $page_property) {
 		create_page_with_menu_linc($page_property);
 	}
+	
+	require_once('block_default_texts.inc');
+	set_default_blocks_texts();
 
 // Atomyx help node creation
   $t = get_t();
