@@ -19,22 +19,31 @@
 		);
 
 		$items['admin/atomyx_portal_administration/config'] = array(
-			'title' => 'Path settings',
-			'description' => 'Configure path for files.',
-			'page callback' => 'drupal_get_form',
-			'page arguments' => array('atomyx_portal_settings'),
-			'access callback' => TRUE,
+			'title'            => 'Path settings',
+			'description'      => 'Configure path for files.',
+			'page callback'    => 'drupal_get_form',
+			'page arguments'   => array('atomyx_portal_settings'),
+			'access callback'  => TRUE,
 			'access arguments' => array('administer site configuration'),
-			'type' => MENU_NORMAL_ITEM,
-			'menu_name'       => 'management',
+			'type'             => MENU_NORMAL_ITEM,
+			'weight'           => 2,
+			'menu_name'        => 'management',
 		);
-
+		
+		$items['admin/atomyx_portal_administration/information'] = array(
+			'title'            => 'Company information',
+			'description'      => 'Company information for your clients, to call or email you.',
+			'page callback'    => 'drupal_get_form',
+			'page arguments'   => array('atomyx_portal_print_settings'),
+			'access callback'  => TRUE,
+			'access arguments' => array('administer site configuration'),
+			'type'             => MENU_NORMAL_ITEM,
+			'weight'           => 1,
+			'menu_name'        => 'management',
+		);
 		return $items;
 	}
 
-	function product_page() {
-		return $output = '';
-	}
 
 	function atomyx_my_account() {
 		return drupal_goto('user');;
@@ -43,13 +52,45 @@
 	function atomyx_portal_administration() {
 		return $output = 'Hello my dear';
 	}
+	
+	function atomyx_portal_print_settings() {
+	global $user;
+	$id = $user->uid;
+
+	$email2 = 'sldkfsdlfk';
+	$support_phone2 = 'sdfsdf';
+
+	$form=array();
+	$form['support_phone'] = array(
+		'#type'          => 'textfield',
+		'#title'         => t('Support phone:'),
+		'#default_value' => $support_phone2,  
+		'#size'          => 20,
+		'#maxlength'     => 250,
+	);
+
+	$form['email'] = array(
+		'#type'          => 'textfield',
+		'#title'         => t('Email:'),
+		'#size'          => 20,
+		'#default_value' => $email2 ,  
+	);
+
+	$form['submit_print_settings'] = array(
+		'#type'  => 'submit',
+		'#value' => t('Save'),
+	);
+
+	return $form;
+	}
+
+
+
 	function atomyx_portal_settings() {
 
 		$title = db_query("SELECT * FROM {file_path} WHERE id = 1", array('id' => 1))->FetchAssoc();
 
-		 $form = array(
-			'#prefix' => '<div class="atomyx_config_form">', 
-			'#suffix' => '</div>', );
+		 $form = array();
 
 		 $form['atomyx_files_path'] = array(
 			'#type'          => 'textfield',
@@ -59,8 +100,6 @@
 			'#maxlength'     => 250,
 			'#description'   => t('Field for files path'),
 			'#required'      => true,
-			'#prefix'        => '<div class="sub2">', 
-			'#suffix'        => '</div>', 
 		 );
 
 
@@ -69,8 +108,6 @@
 			'#title'         => t('Create a separate sub folder per product'),
 			'#default_value' => $title['folder_per_product'], 
 			'#return_value'  => 1,
-			'#prefix'        => '<div class="sub2">', 
-			'#suffix'        => '</div>',
 		); 
 
 		$form['atomyx_folder_per_job'] = array(
@@ -78,8 +115,6 @@
 			'#title'         => t('Deliver each file in its own job folder'),
 			'#default_value' => $title['folder_per_job'], 
 			'#return_value'  => 1,
-			'#prefix'        => '<div class="atomyx_path">', 
-			'#suffix'        => '</div>',
 		); 
 		 
 		 $form['atomyx_tests_path'] = array(
@@ -90,8 +125,6 @@
 			'#maxlength'     => 250,
 			'#description'   => t('Field for tests path'),
 			'#required'      => true,
-			'#prefix'        => '<div class="atomyx_path">', 
-			'#suffix'        => '</div>', 
 		 );
 		 
 		 $form['atomyx_pdfcli_path'] = array(
@@ -102,14 +135,10 @@
 			'#maxlength'     => 250,
 			'#description'   => t('AtomyxPortal Tool path'),
 			'#required'      => true,
-			'#prefix'        => '<div class="atomyx_path">', 
-			'#suffix'        => '</div>', 
 		);
 		$form['atomyx_configs_submit'] = array(
 			'#type'   => 'submit',
 			'#value'  => t('Save'),
-			'#prefix' => '<div >', 
-			'#suffix' => '</div>', 
 			'#submit' => array('atomyx_configs_submit'),
 		); 
 		return $form;
