@@ -82,7 +82,7 @@ function atomyx_portal_block_configure($delta = '') {
 function atomyx_portal_block_save($delta = '', $edit = array()) {
 	switch($delta) {
 		case 'deliver' :
-			variable_set('job_actions_help', $edit['job_actions_help']);
+			variable_set('job_actions_help', $edit['job_actions_help']['value']);
 			break;
 		case 'atomyxhelp' :
 			variable_set('atomyxhelp_example_string', $edit['atomyxhelp_string']);
@@ -95,12 +95,11 @@ function atomyx_portal_block_save($delta = '', $edit = array()) {
 
 function atomyx_portal_block_view($delta = "") {
 	switch($delta) {
-		case "atomyxhelp" : 
+		case "atomyxhelp" :
 			$block['subject'] = t('Title of second block (example_empty)');
 			$block['content'] = variable_get('atomyxhelp_example_string',  t('Some example content.'));
 			break;
-		case "deliver" : 
-			$block['subject'] = t('Title of second block (example_empty)');
+		case "deliver" :
 			require_once("deliver_form.inc");
 			$block['content'] = drupal_get_form("_deliver_form");
 			break;

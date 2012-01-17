@@ -44,6 +44,7 @@ function _deliver_form($form, &$form_state) {
 		$form['finish'] = array(
 			'#type' => 'submit',
 			'#value' => t('Finish'),
+			'#submit' => array('deliver_form_submit'),
 		);
 	}
 
@@ -107,14 +108,16 @@ function deliver_form_uploud_file($form, &$form_state) {
 }
 
 function deliver_form_license($form, &$form_state) {
+	drupal_set_title(t("Closer, but you're not done yet!"));
 	$form = array(
 		'job_help' => array(
-			'#markup' => variable_get('job_actions_help', variable_get('job_actions_help_default',t('Explanation of what user can see in table of jobs after the job  was validated.'))),
+			'#markup' => t(variable_get('job_actions_help', variable_get('job_actions_help_default',t('Explanation of what user can see in table of jobs after the job  was validated.')))),
 		),
-		'aunts_name' => array(
-			'#type' => 'textfield',
-			'#title' => t("Your first cousin's aunt's Social Security number"),
-			'#default_value' => !empty($form_state['values']['aunts_name']) ? $form_state['values']['aunts_name'] : '',
+		'license' => array(
+			'#input' => TRUE,
+			'#type' => 'checkbox',
+			'#title' => t("I'm at home here, you can skip this warning page next time"),
+			'#return_value' => 1,
 		),
 	);
 
