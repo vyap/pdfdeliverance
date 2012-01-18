@@ -290,3 +290,13 @@ function atomyx_portal_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
   );
 }
+function atomyx_portal_form_alter(&$form, &$form_state, $form_id) {
+
+	if(($form_id == 'atomyx_product_node_form') || ($form_id == 'node_atomhelp_node_form')) {
+		$form["options"]["status"]["#default_value"] = 0;
+		$form["options"]["promote"]["#default_value"] = 0;
+		$form["comment_settings"]["comment"]["#default_value"] = 1;
+	return $form;
+	}
+}
+

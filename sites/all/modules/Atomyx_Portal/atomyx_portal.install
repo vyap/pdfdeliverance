@@ -37,7 +37,7 @@ function create_page_with_menu_linc($page_property = array()) {
 }
 
 function atomyx_portal_schema() {
-	$schema['file_path'] = array(
+		$schema['file_path'] = array(
 		'description' => t('files, tests path information.'),
 		'fields' => array(
 			'id' => array(
@@ -80,6 +80,54 @@ function atomyx_portal_schema() {
 		),
 		'primary key' => array('id'),
 	);
+
+	$schema['job'] = array(
+		'fields' => array(
+			'id' => array(
+				'description' => ' job ID',
+				'type'        => 'serial',
+				'unsigned'    => TRUE,
+			),
+
+			'user_id' => array(
+				'description' => 'user id',
+				'type'        => 'int',
+				'length'      => 10,
+				'unsigned'    => TRUE,
+			),
+
+			'delivered_at' => array(
+				'description' => 'time and date',
+				'type'        => 'varchar',
+				'length'      => 250,
+			),
+
+			'product_id' => array(
+				'description' => 'product id',
+				'type'        => 'int',
+				'length'      => 10,
+			),
+
+			'status' => array(
+				'description' => 'job status',
+				'type'        => 'varchar',
+				'length'      => 200,
+			),
+
+			'time' => array(
+				'description' => 'time of deliverance',
+				'type'        => 'varchar',
+				'length'      => 250,
+			),
+
+			'state' => array(
+				'description' => 'time of deliverance',
+				'type'        => 'varchar',
+				'length'      => 250,
+			),
+		),
+		'primary key' => array('id'),
+	);
 	return $schema;
 }
 
@@ -110,6 +158,7 @@ function create_pages_properties() {
 			'page_weight' => 3,
 		),
 	);
+	return $schema;
 }
 
 
@@ -224,8 +273,8 @@ function atomyx_portal_uninstall()
 
 		field_purge_batch(1000);
 
-		//db_drop_table('file_path');
-		
+		db_drop_table('file_path');
+		db_drop_table('job');
 		entity_info_cache_clear();
 		cache_clear_all();
 
