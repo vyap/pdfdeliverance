@@ -16,4 +16,5 @@ function set_default_blocks_texts() {
 		</p>
 	";
 	variable_set('job_actions_help_default', $variable_set);
+
 }

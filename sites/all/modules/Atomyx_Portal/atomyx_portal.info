@@ -5,7 +5,7 @@ project = "Atomyx Portal"
 core = 7.x
 
 dependencies[] = cck_table
-dependencies[] = email_registration
-dependencies[] = user_registrationpassword
 
 files[] = atomyx_portal.module
+
+configure = admin/atomyx_portal_administration/config
